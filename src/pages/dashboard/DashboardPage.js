@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toast";
 import axios from "axios";
 import Timer from "../../components/Timer";
 import Dialog from "../../components/Modal";
+import Spinner from "../../components/Spinner";
 
 const DashboardPage = () => {
   const [videos, setVideos] = useState([]);
@@ -69,7 +70,7 @@ const DashboardPage = () => {
           setIsOpenModal(true);
         })
         .catch((error) => {
-          toast.error(error?.response?.data?.message);
+          toast.error("Error starting merge:", error?.response?.data?.message);
           setIsOpenModal(false);
           setHasMergingStarted(false);
         });
@@ -162,12 +163,13 @@ const DashboardPage = () => {
           </button>
         </div>
       )}
-      {hasMergingStarted && (
+      {hasMergingStarted && <Spinner />}
+      {isOpenModal && (
         <Dialog
           count={count}
           status={status}
           setIsOpenModal={setIsOpenModal}
-          isOpenModal={isOpenModal}
+          isOpenModal={true}
         />
       )}
       <ToastContainer position="top-right" delay={3000} />
